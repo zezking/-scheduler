@@ -5,5 +5,11 @@ import "index.scss";
 
 import Application from "components/Application";
 import DayListItem from "components/DayListItem";
-
-ReactDOM.render(<Application />, document.getElementById("root"));
+import DayList from "components/DayList";
+ReactDOM.render(
+  <div>
+    <Application />
+    <DayListItem />
+  </div>,
+  document.getElementById("root")
+);

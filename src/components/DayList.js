@@ -2,8 +2,6 @@ import React from "react";
 import DayListItem from "components/DayListItem";
 
 export default function DayList(props) {
-  const { days, setDate } = props;
-  console.log(props.setDay);
   const day = props.days
     ? props.days.map((day, index) => {
         return (

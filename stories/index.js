@@ -140,7 +140,6 @@ storiesOf("Appointment", module)
     backgrounds: [{ name: "white", value: "#fff", default: true }],
   })
   .add("Appointment", () => <Appointment />)
-  .add("Appointment Time", () => <Appointment time="12PM" />)
   .add("Header...", () => <Header time="12PM" />)
   .add("Empty", () => <Empty onAdd={action("onAdd")} />)
   .add("Show", () => (
@@ -156,13 +155,36 @@ storiesOf("Appointment", module)
     <Confirm
       message={"Delete the appointment?"}
       onConfirm={action("onConfirm")}
-      onDelete={action("onDelete")}
+      onCancel={action("onCancel")}
     />
   ))
-  .add("Status", () => <Status message={"Deleting"} />)
-  .add("Error", () => (
+  .add("Saving", () => <Status message={"Saving"} />)
+  .add("Deleting", () => <Status message={"Deleting"} />)
+  .add("Error Deleting", () => (
     <Error
       message={"Could not delete appointment"}
       onClose={action("onClose")}
+    />
+  ))
+  .add("Error Saving", () => (
+    <Error message={"Could not Save appointment"} onClose={action("onClose")} />
+  ))
+  .add("Create", () => (
+    <Error message={"Could not Save appointment"} onClose={action("onClose")} />
+  ))
+  .add("Edit", () => (
+    <Edit
+      name={interviewer.name}
+      interviewers={interviewers}
+      interviewer={interviewer.id}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Create", () => (
+    <Edit
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
     />
   ));

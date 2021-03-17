@@ -2,7 +2,6 @@ import React from "react";
 import cx from "classnames";
 import "components/InterviewerListItem.scss";
 export default function InterviewerListItem(props) {
-  console.log(props);
   const InterviewerListItemClasses = cx({
     interviewers__item: true,
     "interviewers__item--selected": props.selected,

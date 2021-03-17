@@ -3,64 +3,90 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "./Appointment/index";
 import axios from "axios";
-const url = "http://localhost:8001/api/days";
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      },
-    },
-  },
-  {
-    id: 3,
-    time: "2pm",
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 2,
-        name: "Tori Malcolm",
-        avatar: "https://i.imgur.com/Nmx0Qxo.png",
-      },
-    },
-  },
+const URLs = {
+  GET_DAYS: "http://localhost:8001/api/days",
+  GET_APPOINTMENTS: "http://localhost:8001/api/appointments",
+  GET_INTERVIEWERS: "http://localhost:8001/api/interviewers",
+};
+// const appointments = [
+//   {
+//     id: 1,
+//     time: "12pm",
+//   },
+//   {
+//     id: 2,
+//     time: "1pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       },
+//     },
+//   },
+//   {
+//     id: 3,
+//     time: "2pm",
+//   },
+//   {
+//     id: 4,
+//     time: "3pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 2,
+//         name: "Tori Malcolm",
+//         avatar: "https://i.imgur.com/Nmx0Qxo.png",
+//       },
+//     },
+//   },
 
-  {
-    id: 5,
-    time: "4pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 3,
-        name: "Mildred Nazir",
-        avatar: "https://i.imgur.com/T2WwVfS.png",
-      },
-    },
-  },
-];
+//   {
+//     id: 5,
+//     time: "4pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 3,
+//         name: "Mildred Nazir",
+//         avatar: "https://i.imgur.com/T2WwVfS.png",
+//       },
+//     },
+//   },
+// ];
+
 export default function Application() {
-  const [day, setDay] = useState(["Monday"]);
-  const [days, setDays] = useState([]);
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    // you may put the line below, but will have to remove/comment hardcoded appointments variable
+    appointments: {},
+  });
+
+  const setDay = (day) => setState({ ...state, day });
+  const setDays = (days) => setState((prev) => ({ ...prev, days }));
 
   useEffect(() => {
-    axios.get(url).then((res) => {
-      setDays([...res.data]);
+    Promise.all([
+      Promise.resolve(axios.get(URLs.GET_DAYS)),
+      Promise.resolve(axios.get(URLs.GET_APPOINTMENTS)),
+      Promise.resolve(axios.get(URLs.GET_INTERVIEWERS)),
+    ]).then((all) => {
+      const [days, appointments, interviewers] = all;
+
+      setState((prev) => ({
+        ...prev,
+        days: days.data,
+        appointments: appointments.data,
+        interviewers: interviewers.data,
+      }));
+
+      console.log(days, appointments, interviewers);
     });
   }, []);
+  const dailyAppointments = [];
 
   return (
     <main className="layout">
@@ -72,7 +98,7 @@ export default function Application() {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList days={days} day={day} setDay={setDay} />
+          <DayList days={state.days} day={state.day} setDay={setDay} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -81,7 +107,7 @@ export default function Application() {
         />
       </section>
       <section className="schedule">
-        {appointments.map((appointment, index) => {
+        {dailyAppointments.map((appointment, index) => {
           return <Appointment key={appointment.id} {...appointment} />;
         })}
         <Appointment key="last" time="5pm" />

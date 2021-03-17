@@ -83,11 +83,13 @@ export default function Application() {
         appointments: appointments.data,
         interviewers: interviewers.data,
       }));
+
+      console.log(interviewers);
     });
   }, []);
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const dailyInterviewers = getInterview(state, state.day);
+  // const dailyInterviewers = getInterview(state, state.day);
 
   return (
     <main className="layout">

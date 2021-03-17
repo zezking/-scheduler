@@ -3,7 +3,6 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import "components/Appointment/styles.scss";
-import { faCoins } from "@fortawesome/free-solid-svg-icons";
 
 export default function Appointment(props) {
   return (

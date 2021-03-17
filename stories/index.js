@@ -174,7 +174,6 @@ storiesOf("Appointment", module)
     <Error message={"Could not Save appointment"} onClose={action("onClose")} />
   ))
   .add("Edit", () => {
-    console.log(interviewers);
     return (
       <Form
         name={interviewer.name}
@@ -184,11 +183,11 @@ storiesOf("Appointment", module)
         onCancel={action("onCancel")}
       />
     );
-  });
-// // .add("Create", () => (
-// //   <Form
-// //     interviewers={interviewers}
-//     onSave={action("onSave")}
-//     onCancel={action("onCancel")}
-//   />
-// ));
+  })
+  .add("Create", () => (
+    <Form
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ));

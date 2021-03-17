@@ -5,7 +5,7 @@ import Button from "../Button";
 export default function Form(props) {
   const [interviewer, setInterviewer] = useState(props.interviewer || "");
   const [name, setName] = useState(props.name || "");
-  console.log("debugger", props.interviewers);
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -17,10 +17,6 @@ export default function Form(props) {
             placeholder="Enter Student Name"
             value={name}
             onChange={(event) => setName(event.target.value)}
-
-            /*
-          This must be a controlled component
-        */
           />
         </form>
         <InterviewerList

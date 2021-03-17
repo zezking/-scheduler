@@ -1,4 +1,4 @@
-export default function getAppointmentsForDay(state, day) {
+export function getAppointmentsForDay(state, day) {
   let appointmentForDay = [];
 
   //   appointmentsNumbersByTheDay={state.days}
@@ -19,4 +19,7 @@ export default function getAppointmentsForDay(state, day) {
   }
 
   return appointmentForDay;
+}
+export function getInterview(state, interview) {
+  let studentAndInterviewer = {};
 }

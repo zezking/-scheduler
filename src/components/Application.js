@@ -3,7 +3,8 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "./Appointment/index";
 import axios from "axios";
-import getAppointmentsForDay from "../helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
+
 const URLs = {
   GET_DAYS: "http://localhost:8001/api/days",
   GET_APPOINTMENTS: "http://localhost:8001/api/appointments",
@@ -24,7 +25,7 @@ export default function Application() {
         id: 2,
         time: "1pm",
         interview: {
-          student: "Lydia Miller-Jones",
+          student: "Enze Zhao",
           interviewer: {
             id: 1,
             name: "Sylvia Palmer",
@@ -62,6 +63,7 @@ export default function Application() {
         },
       },
     ],
+    interviewers: [],
   });
 
   const setDay = (day) => setState({ ...state, day });
@@ -83,7 +85,9 @@ export default function Application() {
       }));
     });
   }, []);
+
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyInterviewers = getInterview(state, state.day);
 
   return (
     <main className="layout">

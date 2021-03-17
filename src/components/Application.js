@@ -3,66 +3,65 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "./Appointment/index";
 import axios from "axios";
-
+import getAppointmentsForDay from "../helpers/selectors";
 const URLs = {
   GET_DAYS: "http://localhost:8001/api/days",
   GET_APPOINTMENTS: "http://localhost:8001/api/appointments",
   GET_INTERVIEWERS: "http://localhost:8001/api/interviewers",
 };
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 2,
-//         name: "Tori Malcolm",
-//         avatar: "https://i.imgur.com/Nmx0Qxo.png",
-//       },
-//     },
-//   },
-
-//   {
-//     id: 5,
-//     time: "4pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 3,
-//         name: "Mildred Nazir",
-//         avatar: "https://i.imgur.com/T2WwVfS.png",
-//       },
-//     },
-//   },
-// ];
 
 export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     // you may put the line below, but will have to remove/comment hardcoded appointments variable
-    appointments: {},
+    appointments: [
+      {
+        id: 1,
+        time: "12pm",
+      },
+      {
+        id: 2,
+        time: "1pm",
+        interview: {
+          student: "Lydia Miller-Jones",
+          interviewer: {
+            id: 1,
+            name: "Sylvia Palmer",
+            avatar: "https://i.imgur.com/LpaY82x.png",
+          },
+        },
+      },
+      {
+        id: 3,
+        time: "2pm",
+      },
+      {
+        id: 4,
+        time: "3pm",
+        interview: {
+          student: "Lydia Miller-Jones",
+          interviewer: {
+            id: 2,
+            name: "Tori Malcolm",
+            avatar: "https://i.imgur.com/Nmx0Qxo.png",
+          },
+        },
+      },
+
+      {
+        id: 5,
+        time: "4pm",
+        interview: {
+          student: "Lydia Miller-Jones",
+          interviewer: {
+            id: 3,
+            name: "Mildred Nazir",
+            avatar: "https://i.imgur.com/T2WwVfS.png",
+          },
+        },
+      },
+    ],
   });
 
   const setDay = (day) => setState({ ...state, day });
@@ -82,11 +81,9 @@ export default function Application() {
         appointments: appointments.data,
         interviewers: interviewers.data,
       }));
-
-      console.log(days, appointments, interviewers);
     });
   }, []);
-  const dailyAppointments = [];
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   return (
     <main className="layout">

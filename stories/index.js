@@ -187,7 +187,7 @@ storiesOf("Appointment", module)
   .add("Error Saving", () => (
     <Error message={"Could not Save appointment"} onClose={action("onClose")} />
   ))
-  .add("Create", () => (
+  .add("Error Create", () => (
     <Error message={"Could not Save appointment"} onClose={action("onClose")} />
   ))
   .add("Edit", () => {

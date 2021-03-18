@@ -83,14 +83,25 @@ export default function Application() {
         appointments: appointments.data,
         interviewers: interviewers.data,
       }));
-
-      console.log(interviewers);
     });
   }, []);
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  // const dailyInterviewers = getInterview(state, state.day);
 
+  const appointments = getAppointmentsForDay(state, state.day);
+
+  const schedule = appointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
+  });
   return (
     <main className="layout">
       <section className="sidebar">
@@ -110,9 +121,7 @@ export default function Application() {
         />
       </section>
       <section className="schedule">
-        {dailyAppointments.map((appointment, index) => {
-          return <Appointment key={appointment.id} {...appointment} />;
-        })}
+        {schedule}
         <Appointment key="last" time="5pm" />
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>

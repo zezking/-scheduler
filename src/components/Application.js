@@ -96,6 +96,7 @@ export default function Application() {
         id={appointment.id}
         time={appointment.time}
         interview={interview}
+        interviewers={state.interviewers}
       />
     );
   });

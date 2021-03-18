@@ -1,7 +1,6 @@
 export function getAppointmentsForDay(state, day) {
   const daysbyAppintment = [...state.days];
   const appointmentList = { ...state.appointments };
-
   let appointmentForDay = [];
   let dayAndAppointments = {};
   for (const dayID of daysbyAppintment) {
@@ -17,6 +16,7 @@ export function getAppointmentsForDay(state, day) {
     }
   }
 
+  //needs refactored!
   return appointmentForDay;
 }
 export function getInterview(state, interview) {

@@ -86,8 +86,6 @@ export default function Application() {
     });
   }, []);
 
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
-
   const appointments = getAppointmentsForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {

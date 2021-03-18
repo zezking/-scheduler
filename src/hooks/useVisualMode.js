@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function useVisualMode(initial) {
+export default function useVisualMode(initial) {
   //My attempt-------------------
   //   const [mode, setMode] = useState("FIRST");
   //   return {

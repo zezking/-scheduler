@@ -10,5 +10,9 @@ export function useVisualMode(initial) {
 
   const [mode, setMode] = useState(initial);
 
-  return { mode };
+  const transition = (newMode) => {
+    setMode(newMode);
+  };
+
+  return { mode, transition };
 }

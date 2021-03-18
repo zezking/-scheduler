@@ -11,14 +11,15 @@ export function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
-  const transition = (newMode, history) => {
+  const transition = (newMode) => {
     setMode(newMode);
-    setHistory(history);
+    let newHistory = [...history];
+    newHistory = [...history, newMode];
+    setHistory(newHistory);
   };
   const back = () => {
     history.pop();
-    setMode(history);
+    setMode(history[history.length - 1]);
   };
-
   return { mode, transition, back };
 }

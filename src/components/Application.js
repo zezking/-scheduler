@@ -3,7 +3,11 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "./Appointment/index";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
 
 const URLs = {
   GET_DAYS: "http://localhost:8001/api/days",
@@ -86,6 +90,7 @@ export default function Application() {
   }, []);
 
   const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -96,7 +101,7 @@ export default function Application() {
         id={appointment.id}
         time={appointment.time}
         interview={interview}
-        // interviewers={state.interviewers}
+        interviewers={interviewers}
       />
     );
   });

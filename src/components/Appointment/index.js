@@ -14,7 +14,7 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-  console.log(props);
+
   const onClick = () => {};
   return (
     <article className="appointment">
@@ -26,7 +26,7 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer}
         />
       )}
-      {mode === CREATE && <Form interviewers={[]} />}
+      {mode === CREATE && <Form interviewers={[]} onCancel={back} />}
     </article>
   );
 }

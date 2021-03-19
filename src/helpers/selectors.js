@@ -48,17 +48,11 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay(state, day) {
-  //   const appointmentList = { ...state.appointments };
-  //this is the refactored code
-
   let interviewersForDay = [];
-
   const filteredDay = state.days.filter((index) => index.name === day);
-
   if (!filteredDay) {
     return interviewersForDay;
   }
-
   if (filteredDay.length > 0) {
     filteredDay[0].interviewers.map((interviewer) => {
       return interviewersForDay.push(state.interviewers[interviewer]);

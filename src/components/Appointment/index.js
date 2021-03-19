@@ -15,7 +15,6 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  const onClick = () => {};
   return (
     <article className="appointment">
       <Header time={props.time} />

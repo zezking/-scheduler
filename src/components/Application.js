@@ -47,6 +47,7 @@ export default function Application() {
   const interviewers = getInterviewersForDay(state, state.day);
 
   const bookInterview = (id, interview) => {
+    console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -55,21 +56,17 @@ export default function Application() {
       ...state.appointments,
       [id]: appointment,
     };
-
-    axios
-      .put(`${URLs.GET_APPOINTMENTS}/${id}`, {
-        interview,
-      })
+    return axios
+      .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        console.log(res);
+        setState((prev) => ({
+          ...prev,
+          appointments,
+        }));
       })
       .catch((err) => {
         console.log(err);
       });
-    setState((prev) => ({
-      ...prev,
-      appointments,
-    }));
   };
 
   const schedule = appointments.map((appointment) => {

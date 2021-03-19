@@ -9,12 +9,13 @@ import {
   getInterviewersForDay,
 } from "../helpers/selectors";
 
+//APIs
 const URLs = {
   GET_DAYS: "http://localhost:8001/api/days",
   GET_APPOINTMENTS: "http://localhost:8001/api/appointments",
   GET_INTERVIEWERS: "http://localhost:8001/api/interviewers",
 };
-
+//Export the applications
 export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
@@ -24,7 +25,7 @@ export default function Application() {
   });
 
   const setDay = (day) => setState({ ...state, day });
-
+  //fetch data from APIs
   useEffect(() => {
     Promise.all([
       Promise.resolve(axios.get(URLs.GET_DAYS)),
@@ -41,11 +42,11 @@ export default function Application() {
       }));
     });
   }, []);
-
+  //get appoinments and interviewers by day
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
+
   const bookInterview = (id, interview) => {
-    console.log("appointment", id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -55,6 +56,16 @@ export default function Application() {
       [id]: appointment,
     };
 
+    axios
+      .put(`${URLs.GET_APPOINTMENTS}/${id}`, {
+        interview,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setState((prev) => ({
       ...prev,
       appointments,

@@ -44,6 +44,17 @@ export default function Application() {
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
+  const bookInterview = (id, interview) => {
+    console.log("appointment", id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+  };
 
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -55,9 +66,11 @@ export default function Application() {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview(appointment.id, interview)}
       />
     );
   });
+
   return (
     <main className="layout">
       <section className="sidebar">

@@ -62,9 +62,6 @@ export default function Application() {
           ...prev,
           appointments,
         }));
-      })
-      .catch((err) => {
-        console.log(err);
       });
   };
 
@@ -88,9 +85,6 @@ export default function Application() {
           ...prev,
           appointments,
         }));
-      })
-      .catch((err) => {
-        console.log(err);
       });
   };
 

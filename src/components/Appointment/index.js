@@ -19,7 +19,7 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
-
+  //save appointment
   const save = (name, interviewer) => {
     const interview = {
       student: name,
@@ -28,14 +28,15 @@ export default function Appointment(props) {
     transition(SAVING);
     props.bookInterview(props.id, interview).then(() => transition(SHOW));
   };
+
+  //delete appointment
   const cancel = () => {
     transition(CONFIRM, true);
     transition(DELETING);
-    props
-      .onDelete(props.id)
-
-      .then(() => transition(EMPTY));
+    props.onDelete(props.id).then(() => transition(EMPTY));
   };
+  const edit = () => {};
+
   return (
     <article className="appointment">
       <Header time={props.time} />
@@ -46,6 +47,9 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer}
           onDelete={() => {
             transition(CONFIRM);
+          }}
+          onEdit={() => {
+            transition(CREATE);
           }}
         />
       )}

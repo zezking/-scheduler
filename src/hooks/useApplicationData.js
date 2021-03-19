@@ -32,7 +32,7 @@ export default function useApplicationData() {
         interviewers: interviewers.data,
       }));
     });
-  }, []);
+  }, [state]);
   //get appoinments and interviewers by day
 
   const bookInterview = (id, interview) => {

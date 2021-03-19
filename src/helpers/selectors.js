@@ -14,24 +14,6 @@ export function getAppointmentsForDay(state, day) {
   }
 
   return appointmentForDay;
-
-  //This is my ugly ass original code
-  //   let appointmentForDay = [];
-  //   let dayAndAppointments = {};
-  //   for (const dayID of daysbyAppintment) {
-  //     if (!dayAndAppointments[dayID.name]) {
-  //       dayAndAppointments[dayID.name] = dayID.appointments;
-  //     }
-  //   }
-  //   for (const dayOfWeek in dayAndAppointments) {
-  //     if (dayOfWeek === day) {
-  //       for (const appointmentID of dayAndAppointments[day]) {
-  //         appointmentForDay.push(appointmentList[appointmentID]);
-  //       }
-  //     }
-  //   }
-
-  //needs refactored!
 }
 export function getInterview(state, interview) {
   const interviewersList = { ...state.interviewers };

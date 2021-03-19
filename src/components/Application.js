@@ -93,30 +93,7 @@ export default function Application() {
         console.log(err);
       });
   };
-  const editInterview = (id, interview) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: interview,
-    };
 
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-
-    return axios
-      .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then((res) => {
-        console.log(res);
-        setState((prev) => ({
-          ...prev,
-          appointments,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 

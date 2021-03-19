@@ -37,7 +37,6 @@ export default function Appointment(props) {
     transition(DELETING);
     props.onDelete(props.id).then(() => transition(EMPTY));
   };
-  const edit = () => {};
 
   return (
     <article className="appointment">

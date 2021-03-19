@@ -22,7 +22,9 @@ export default function Appointment(props) {
       interviewer,
     };
 
-    console.log(interview);
+    props.bookInterview(props.id, interview);
+
+    transition(SHOW);
   };
   return (
     <article className="appointment">

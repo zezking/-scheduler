@@ -54,6 +54,11 @@ export default function Application() {
       ...state.appointments,
       [id]: appointment,
     };
+
+    setState((prev) => ({
+      ...prev,
+      appointments,
+    }));
   };
 
   const schedule = appointments.map((appointment) => {
@@ -66,7 +71,7 @@ export default function Application() {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
-        bookInterview={bookInterview(appointment.id, interview)}
+        bookInterview={bookInterview}
       />
     );
   });

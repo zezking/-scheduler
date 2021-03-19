@@ -47,7 +47,6 @@ export default function Application() {
   const interviewers = getInterviewersForDay(state, state.day);
 
   const bookInterview = (id, interview) => {
-    console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -68,19 +67,43 @@ export default function Application() {
         console.log(err);
       });
   };
+
+  //delete the appointment
   const cancelInterview = (id) => {
-    console.log(id);
     const appointment = {
       ...state.appointments[id],
       interview: null,
     };
 
-    console.log(appointment);
     const appointments = {
       ...state.appointments,
       [id]: appointment,
     };
-    console.log(appointments);
+
+    return axios
+      .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
+      .then((res) => {
+        console.log(res);
+        setState((prev) => ({
+          ...prev,
+          appointments,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const editInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: interview,
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {

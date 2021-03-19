@@ -68,7 +68,32 @@ export default function Application() {
         console.log(err);
       });
   };
+  const cancelInterview = (id) => {
+    console.log(id);
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
 
+    console.log(appointment);
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    console.log(appointments);
+    return axios
+      .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
+      .then((res) => {
+        console.log(res);
+        setState((prev) => ({
+          ...prev,
+          appointments,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
@@ -80,6 +105,7 @@ export default function Application() {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        onDelete={cancelInterview}
       />
     );
   });

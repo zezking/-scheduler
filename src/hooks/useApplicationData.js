@@ -43,12 +43,15 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+
+    const days = updateSpots(state.day, state.days, state.appointments);
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
         setState((prev) => ({
           ...prev,
           appointments,
+          days,
         }));
       });
   };
@@ -65,6 +68,7 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
+    const days = updateSpots(state.day, state.days, state.appointments);
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
@@ -72,8 +76,38 @@ export default function useApplicationData() {
         setState((prev) => ({
           ...prev,
           appointments,
+          days,
         }));
       });
+  };
+
+  const getAvailableInterviewsForDay = (dayObj, appointments) => {
+    let count = 0;
+    console.log(dayObj);
+    dayObj[0].appointments.map((appoinmentID) => {
+      const appointment = appointments[appoinmentID];
+
+      if (!appointment.interview) {
+        count++;
+      }
+    });
+    return count;
+  };
+  // Counts appointments for day that have null interview
+  const updateSpots = function (dayName, days, appointments) {
+    // paste in your code here
+
+    const day = days.filter((dayID) => dayID.name === dayName);
+
+    const availableInterviews = getAvailableInterviewsForDay(day, appointments);
+
+    const result = days.map((index) => {
+      if (index.name === dayName) {
+        return { ...index, spots: availableInterviews };
+      }
+      return index;
+    });
+    return result;
   };
 
   return { state, setDay, bookInterview, cancelInterview };

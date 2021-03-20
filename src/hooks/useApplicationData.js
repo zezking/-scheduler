@@ -43,15 +43,15 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-
-    const days = updateSpots(state.day, state.days, state.appointments);
+    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
+        console.log("book interview", days);
         setState((prev) => ({
           ...prev,
-          appointments,
           days,
+          appointments,
         }));
       });
   };
@@ -62,28 +62,25 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: null,
     };
-
     const appointments = {
       ...state.appointments,
       [id]: appointment,
     };
-
-    const days = updateSpots(state.day, state.days, state.appointments);
+    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        console.log(res);
         setState((prev) => ({
           ...prev,
-          appointments,
           days,
+          appointments,
         }));
       });
   };
 
   const getAvailableInterviewsForDay = (dayObj, appointments) => {
     let count = 0;
-    console.log(dayObj);
+
     dayObj[0].appointments.map((appoinmentID) => {
       const appointment = appointments[appoinmentID];
 
@@ -93,10 +90,8 @@ export default function useApplicationData() {
     });
     return count;
   };
-  // Counts appointments for day that have null interview
-  const updateSpots = function (dayName, days, appointments) {
-    // paste in your code here
 
+  const updateSpots = function (dayName, days, appointments) {
     const day = days.filter((dayID) => dayID.name === dayName);
 
     const availableInterviews = getAvailableInterviewsForDay(day, appointments);

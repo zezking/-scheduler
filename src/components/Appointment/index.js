@@ -21,7 +21,6 @@ const ERROR_DELETE = "Sorry Error Deleting";
 
 const deleteMsg = "Are you sure you want to delete?";
 export default function Appointment(props) {
-  console.log(props);
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );

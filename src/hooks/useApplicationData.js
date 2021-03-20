@@ -24,7 +24,6 @@ export default function useApplicationData() {
       Promise.resolve(axios.get(URLs.GET_INTERVIEWERS)),
     ]).then((all) => {
       const [days, appointments, interviewers] = all;
-
       setState((prev) => ({
         ...prev,
         days: days.data,
@@ -32,9 +31,9 @@ export default function useApplicationData() {
         interviewers: interviewers.data,
       }));
     });
-  }, [state]);
-  //get appoinments and interviewers by day
+  }, []);
 
+  //get appoinments and interviewers by day
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],

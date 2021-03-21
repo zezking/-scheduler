@@ -18,9 +18,18 @@ function reducer(state, action) {
         day: action.day,
       };
     case SET_APPLICATION_DATA:
-      return {};
+      return {
+        ...state,
+        days: action.days,
+        appointments: action.appointments,
+        interviewers: action.interviewers,
+      };
     case SET_INTERVIEW: {
-      return;
+      return {
+        ...state,
+        appointments: action.appointments,
+        days: action.days,
+      };
     }
     default:
       throw new Error(
@@ -68,7 +77,7 @@ export default function useApplicationData() {
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        dispatch({ type: SET_INTERVIEW, id, interview, days });
+        dispatch({ type: SET_INTERVIEW, appointments, days });
       });
   };
 
@@ -85,7 +94,7 @@ export default function useApplicationData() {
     const days = updateSpots(state.day, state.days, appointments);
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then(dispatch({ type: SET_INTERVIEW, id, interview: null }));
+      .then(dispatch({ type: SET_INTERVIEW, appointments, days }));
   };
 
   const getAvailableInterviewsForDay = (dayObj, appointments) => {

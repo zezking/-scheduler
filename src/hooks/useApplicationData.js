@@ -21,15 +21,11 @@ export default function useApplicationData() {
   function reducer(state, action) {
     switch (action.type) {
       case SET_DAY:
-        return {
-          /* insert logic */
-        };
+        return {};
       case SET_APPLICATION_DATA:
-        return {
-          /* insert logic */
-        };
+        return {};
       case SET_INTERVIEW: {
-        return; /* insert logic */
+        return;
       }
       default:
         throw new Error(

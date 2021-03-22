@@ -29,6 +29,7 @@ function reducer(state, action) {
     case SET_INTERVIEW: {
       return {
         ...state,
+        days: action.days,
         appointments: action.appointments,
       };
     }

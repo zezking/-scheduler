@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import updateSpots from "../helpers/updateSpots";
 import axios from "axios";
 
 const URLs = {
@@ -9,6 +10,12 @@ const URLs = {
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
+const initialState = {
+  day: "Monday",
+  days: [],
+  appointments: [],
+  interviewers: [],
+};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -25,10 +32,20 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
+      const appointment = {
+        ...state.appointments[action.id],
+        interview: { ...action.interview },
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [action.id]: appointment,
+      };
+      const days = updateSpots(state.day, state.days, appointments);
       return {
         ...state,
-        appointments: action.appointments,
-        days: action.days,
+        appointments,
+        days,
       };
     }
     default:
@@ -38,12 +55,9 @@ function reducer(state, action) {
   }
 }
 export default function useApplicationData() {
-  const [state, dispatch] = useReducer(reducer, {
-    day: "Monday",
-    days: [],
-    appointments: [],
-    interviewers: [],
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  //set the current day when use selected
   const setDay = (day) => dispatch({ type: "SET_DAY", day });
 
   //fetch data from APIs
@@ -69,15 +83,10 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview },
     };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        dispatch({ type: SET_INTERVIEW, appointments, days });
+        dispatch({ type: SET_INTERVIEW, id, interview });
       });
   };
 
@@ -87,41 +96,10 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: null,
     };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    const days = updateSpots(state.day, state.days, appointments);
+
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then(dispatch({ type: SET_INTERVIEW, appointments, days }));
-  };
-
-  const getAvailableInterviewsForDay = (dayObj, appointments) => {
-    let count = 0;
-
-    dayObj[0].appointments.map((appoinmentID) => {
-      const appointment = appointments[appoinmentID];
-
-      if (!appointment.interview) {
-        count++;
-      }
-    });
-    return count;
-  };
-
-  const updateSpots = function (dayName, days, appointments) {
-    const day = days.filter((dayID) => dayID.name === dayName);
-
-    const availableInterviews = getAvailableInterviewsForDay(day, appointments);
-
-    const result = days.map((index) => {
-      if (index.name === dayName) {
-        return { ...index, spots: availableInterviews };
-      }
-      return index;
-    });
-    return result;
+      .then(dispatch({ type: SET_INTERVIEW, id, interview: null }));
   };
 
   return { state, setDay, bookInterview, cancelInterview };

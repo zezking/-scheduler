@@ -7,15 +7,16 @@ const URLs = {
   GET_APPOINTMENTS: "http://localhost:8001/api/appointments",
   GET_INTERVIEWERS: "http://localhost:8001/api/interviewers",
 };
-const SET_DAY = "SET_DAY";
-const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-const SET_INTERVIEW = "SET_INTERVIEW";
+
 const initialState = {
   day: "Monday",
   days: [],
   appointments: [],
   interviewers: [],
 };
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -32,20 +33,10 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
-      // const appointment = {
-      //   ...state.appointments[action.id],
-      //   interview: { ...action.interview },
-      // };
-
-      const appointments = {
-        ...state.appointments,
-        [action.id]: action.appointment,
-      };
-      const days = updateSpots(state.day, state.days, appointments);
       return {
         ...state,
-        appointments,
-        days,
+        appointments: action.appointments,
+        days: action.days,
       };
     }
     default:
@@ -83,10 +74,15 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview },
     };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        dispatch({ type: SET_INTERVIEW, id, interview, appointment });
+        dispatch({ type: SET_INTERVIEW, appointments, days });
       });
   };
 
@@ -96,10 +92,14 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: null,
     };
-
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then(dispatch({ type: SET_INTERVIEW, id, appointment }));
+      .then(dispatch({ type: SET_INTERVIEW, appointments, days }));
   };
 
   return { state, setDay, bookInterview, cancelInterview };

@@ -1,7 +1,6 @@
 import { useEffect, useReducer } from "react";
-import updateSpots from "../helpers/updateSpots";
 import axios from "axios";
-
+import updateSpots from "../helpers/updateSpots";
 const URLs = {
   GET_DAYS: "http://localhost:8001/api/days",
   GET_APPOINTMENTS: "http://localhost:8001/api/appointments",

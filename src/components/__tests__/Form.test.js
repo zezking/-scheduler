@@ -1,11 +1,6 @@
 import React from "react";
 
-import {
-  render,
-  cleanup,
-  fireEvent,
-  waitForElement,
-} from "@testing-library/react";
+import { render, cleanup, fireEvent } from "@testing-library/react";
 import Form from "components/Appointment/Form";
 
 afterEach(cleanup);
@@ -28,24 +23,18 @@ describe("Form", () => {
 
   it("renders with initial student name", () => {
     const { getByTestId } = render(
-      <Form interviewers={interviewers} name="Lydia Miller-Jones" />
+      <Form interviewers={interviewers} name="Jason" />
     );
-    expect(getByTestId("student-name-input")).toHaveValue("Lydia Miller-Jones");
+    expect(getByTestId("student-name-input")).toHaveValue("Jason");
   });
 
-  it("validates that the student name is not blank", async () => {
-    /* 1. validation is shown */
+  it("validates that the student name is not blank", () => {
     const onSave = jest.fn();
     const { getByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
-    await waitForElement(() => getByText("Save"));
     fireEvent.click(getByText("Save"));
-    await waitForElement(() => getByText(/student name cannot be blank/i));
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
-
-    /* 2. onSave is not called */
-
     expect(onSave).not.toHaveBeenCalled();
   });
 
@@ -53,17 +42,28 @@ describe("Form", () => {
     const onSave = jest.fn();
 
     const { getByText, queryByText } = render(
-      <Form
-        interviewers={interviewers}
-        onSave={onSave}
-        name="Lydia Miller-Jones"
-      />
+      <Form interviewers={interviewers} onSave={onSave} name="Jason" />
     );
 
     fireEvent.click(getByText("Save"));
 
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
+    expect(onSave).toHaveBeenCalledWith("Jason", "");
+  });
+
+  it("submits the name entered by the user", () => {
+    const onSave = jest.fn();
+    const { getByText, getByPlaceholderText } = render(
+      <Form interviewers={interviewers} onSave={onSave} />
+    );
+
+    const input = getByPlaceholderText("Enter Student Name");
+
+    fireEvent.change(input, { target: { value: "Jason" } });
+    fireEvent.click(getByText("Save"));
+
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(onSave).toHaveBeenCalledWith("Jason", null);
   });
 });

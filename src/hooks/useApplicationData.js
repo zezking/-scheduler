@@ -32,14 +32,14 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
-      const appointment = {
-        ...state.appointments[action.id],
-        interview: { ...action.interview },
-      };
+      // const appointment = {
+      //   ...state.appointments[action.id],
+      //   interview: { ...action.interview },
+      // };
 
       const appointments = {
         ...state.appointments,
-        [action.id]: appointment,
+        [action.id]: action.appointment,
       };
       const days = updateSpots(state.day, state.days, appointments);
       return {
@@ -86,7 +86,7 @@ export default function useApplicationData() {
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        dispatch({ type: SET_INTERVIEW, id, interview });
+        dispatch({ type: SET_INTERVIEW, id, interview, appointment });
       });
   };
 
@@ -99,7 +99,7 @@ export default function useApplicationData() {
 
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then(dispatch({ type: SET_INTERVIEW, id, interview: null }));
+      .then(dispatch({ type: SET_INTERVIEW, id, appointment }));
   };
 
   return { state, setDay, bookInterview, cancelInterview };

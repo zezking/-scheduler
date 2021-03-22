@@ -1,5 +1,4 @@
 import { useEffect, useReducer } from "react";
-import updateSpots from "../helpers/updateSpots";
 import axios from "axios";
 
 const URLs = {
@@ -15,6 +14,31 @@ const initialState = {
   days: [],
   appointments: [],
   interviewers: [],
+};
+const getAvailableInterviewsForDay = (dayObj, appointments) => {
+  let count = 0;
+
+  dayObj[0].appointments.map((appoinmentID) => {
+    const appointment = appointments[appoinmentID];
+
+    if (!appointment.interview) {
+      count++;
+    }
+  });
+  return count;
+};
+const updateSpots = function (dayName, days, appointments) {
+  const day = days.filter((dayID) => dayID.name === dayName);
+
+  const availableInterviews = getAvailableInterviewsForDay(day, appointments);
+
+  const result = days.map((index) => {
+    if (index.name === dayName) {
+      return { ...index, spots: availableInterviews };
+    }
+    return index;
+  });
+  return result;
 };
 
 function reducer(state, action) {
@@ -32,20 +56,10 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
-      // const appointment = {
-      //   ...state.appointments[action.id],
-      //   interview: { ...action.interview },
-      // };
-
-      const appointments = {
-        ...state.appointments,
-        [action.id]: action.appointment,
-      };
-      const days = updateSpots(state.day, state.days, appointments);
       return {
         ...state,
-        appointments,
-        days,
+        appointments: action.appoinments,
+        days: action.days,
       };
     }
     default:
@@ -83,10 +97,16 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview },
     };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then((res) => {
-        dispatch({ type: SET_INTERVIEW, id, interview, appointment });
+        dispatch({ type: "SET_INTERVIEW", appointments, days });
       });
   };
 
@@ -96,10 +116,14 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: null,
     };
-
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    const days = updateSpots(state.day, state.days, appointments);
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then(dispatch({ type: SET_INTERVIEW, id, appointment }));
+      .then(dispatch({ type: "SET_INTERVIEW", appointments, days }));
   };
 
   return { state, setDay, bookInterview, cancelInterview };

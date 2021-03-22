@@ -49,7 +49,7 @@ describe("Form", () => {
 
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Jason", "");
+    expect(onSave).toHaveBeenCalledWith("Jason", null);
   });
 
   it("submits the name entered by the user", () => {

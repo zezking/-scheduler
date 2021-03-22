@@ -3,9 +3,9 @@ import InterviewerList from "../InterviewerList";
 import Button from "../Button";
 
 export default function Form(props) {
-  const [interviewer, setInterviewer] = useState(props.interviewer || "");
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [name, setName] = useState(props.name || "");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   const reset = () => {
     setName("");
@@ -22,7 +22,7 @@ export default function Form(props) {
       setError("Student name cannot be blank");
       return;
     }
-    setError("");
+    setError(null);
     props.onSave(name, interviewer);
   }
   return (

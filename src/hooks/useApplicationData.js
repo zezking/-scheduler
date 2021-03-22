@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import updateSpots from "../helpers/updateSpots";
 import axios from "axios";
 
 const URLs = {
@@ -9,6 +10,7 @@ const URLs = {
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
+const SET_SPOTS = "SET_SPOTS";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -25,6 +27,12 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
+      return {
+        ...state,
+        appointments: action.appointments,
+      };
+    }
+    case SET_SPOTS: {
       return {
         ...state,
         appointments: action.appointments,
@@ -95,33 +103,6 @@ export default function useApplicationData() {
     return axios
       .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
       .then(dispatch({ type: SET_INTERVIEW, appointments, days }));
-  };
-
-  const getAvailableInterviewsForDay = (dayObj, appointments) => {
-    let count = 0;
-
-    dayObj[0].appointments.map((appoinmentID) => {
-      const appointment = appointments[appoinmentID];
-
-      if (!appointment.interview) {
-        count++;
-      }
-    });
-    return count;
-  };
-
-  const updateSpots = function (dayName, days, appointments) {
-    const day = days.filter((dayID) => dayID.name === dayName);
-
-    const availableInterviews = getAvailableInterviewsForDay(day, appointments);
-
-    const result = days.map((index) => {
-      if (index.name === dayName) {
-        return { ...index, spots: availableInterviews };
-      }
-      return index;
-    });
-    return result;
   };
 
   return { state, setDay, bookInterview, cancelInterview };

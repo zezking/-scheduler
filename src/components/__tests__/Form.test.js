@@ -1,6 +1,11 @@
 import React from "react";
 
-import { render, cleanup, fireEvent } from "@testing-library/react";
+import {
+  render,
+  cleanup,
+  fireEvent,
+  waitForElement,
+} from "@testing-library/react";
 import Form from "components/Appointment/Form";
 
 afterEach(cleanup);
@@ -14,10 +19,6 @@ const interviewers = [
 ];
 
 describe("Form", () => {
-  // const { getByText } = render(
-  //   <Form data-testid="student" />
-  // );
-
   it("renders without student name if not provided", () => {
     const { getByPlaceholderText } = render(
       <Form interviewers={interviewers} />
@@ -32,13 +33,15 @@ describe("Form", () => {
     expect(getByTestId("student-name-input")).toHaveValue("Lydia Miller-Jones");
   });
 
-  it("validates that the student name is not blank", () => {
+  it("validates that the student name is not blank", async () => {
     /* 1. validation is shown */
     const onSave = jest.fn();
     const { getByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
-    fireEvent.click(getByText("save"));
+    await waitForElement(() => getByText("Save"));
+    fireEvent.click(getByText("Save"));
+    await waitForElement(() => getByText(/student name cannot be blank/i));
     expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
 
     /* 2. onSave is not called */

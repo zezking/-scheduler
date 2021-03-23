@@ -23,13 +23,13 @@ export default function Form(props) {
       return;
     }
     if (interviewer === null) {
-      setError("You should select interviewer");
+      setError("Please select interviewer");
       return;
     }
     setError("");
     props.onSave(name, interviewer);
   }
-  console.log(interviewer);
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">

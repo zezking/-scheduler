@@ -42,7 +42,7 @@ function reducer(state, action) {
         [action.id]: appointment,
       };
       const days = updateSpots(state.day, state.days, appointments);
-      console.log(days);
+
       return {
         ...state,
         appointments,

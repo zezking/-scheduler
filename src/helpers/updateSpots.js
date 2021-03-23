@@ -10,7 +10,6 @@ const getAvailableInterviewsForDay = (dayObj, appointments) => {
   return count;
 };
 export default function updateSpots(dayName, days, appointments) {
-  console.log(dayName, days, appointments);
   const day = days.filter((dayID) => dayID.name === dayName);
 
   const availableInterviews = getAvailableInterviewsForDay(day, appointments);

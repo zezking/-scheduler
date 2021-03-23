@@ -3,10 +3,15 @@ export function getAppointmentsForDay(state, day) {
 
   //this is the refactored code
   let appointmentForDay = [];
+
+  if (!state.days) {
+    return appointmentForDay;
+  }
   const filteredDay = state.days.filter((index) => index.name === day);
   if (!filteredDay) {
     return appointmentForDay;
   }
+
   if (filteredDay.length > 0) {
     filteredDay[0].appointments.map((id) => {
       return appointmentForDay.push(state.appointments[id]);

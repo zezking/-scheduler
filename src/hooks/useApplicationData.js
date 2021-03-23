@@ -32,10 +32,21 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
+      const appointment = {
+        ...state.appointments[action.id],
+        interview: { ...action.interview },
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [action.id]: appointment,
+      };
+      const days = updateSpots(state.day, state.days, appointments);
+      console.log(days);
       return {
         ...state,
-        appointments: action.appointments,
-        days: action.days,
+        appointments,
+        days,
       };
     }
     default:
@@ -69,37 +80,19 @@ export default function useApplicationData() {
 
   //get appoinments and interviewers by day
   const bookInterview = (id, interview) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    const days = updateSpots(state.day, state.days, appointments);
+    console.log(interview);
     return axios
-      .put(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
+      .put(`${URLs.GET_APPOINTMENTS}/${id}`, { interview })
       .then((res) => {
-        dispatch({ type: SET_INTERVIEW, appointments, days });
+        dispatch({ type: SET_INTERVIEW, id, interview });
       });
   };
 
   //delete the appointment
   const cancelInterview = (id) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null,
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    const days = updateSpots(state.day, state.days, appointments);
     return axios
-      .delete(`${URLs.GET_APPOINTMENTS}/${id}`, appointment)
-      .then(dispatch({ type: SET_INTERVIEW, appointments, days }));
+      .delete(`${URLs.GET_APPOINTMENTS}/${id}`)
+      .then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }));
   };
-
   return { state, setDay, bookInterview, cancelInterview };
 }

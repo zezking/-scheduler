@@ -1,16 +1,16 @@
 const getAvailableInterviewsForDay = (dayObj, appointments) => {
   let count = 0;
-
-  dayObj[0].appointments.map((appoinmentID) => {
+  const appointmentsForDay = dayObj[0].appointments;
+  appointmentsForDay.forEach((appoinmentID) => {
     const appointment = appointments[appoinmentID];
-
-    if (!appointment.interview) {
+    if (appointment.interview === null || !appointment.interview.student) {
       count++;
     }
   });
   return count;
 };
 export default function updateSpots(dayName, days, appointments) {
+  console.log(dayName, days, appointments);
   const day = days.filter((dayID) => dayID.name === dayName);
 
   const availableInterviews = getAvailableInterviewsForDay(day, appointments);

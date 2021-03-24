@@ -83,6 +83,7 @@ export default {
       }
     }
   }),
+  // eslint-default-case
   put: jest.fn((url) => {
     switch (url) {
       case "/api/appointments/1": {

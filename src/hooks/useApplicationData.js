@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
 import updateSpots from "../helpers/updateSpots";
+
 const URLs = {
   GET_DAYS: "/api/days",
   GET_APPOINTMENTS: "/api/appointments",
@@ -13,6 +14,7 @@ const initialState = {
   appointments: [],
   interviewers: [],
 };
+
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";

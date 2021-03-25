@@ -30,13 +30,7 @@ npm run storybook
 
 ## Demos
 
-Book Appointment
-!["Book Appointment"](screenshots/bookAppointment.gif)
-Edit Appointment
-!["Edit Appointment"](screenshots/editAppointment.gif)
-Delete Appointment
-!["Delete Appointment"](screenshots/deleteAppointment.gif)
-Error Msg when deleting
-!["Error Deleting"](screenshots/errorDeleting.gif)
-Error Msg when saving
-!["Error Saving"](screenshots/errorSaving.gif)
+Book, Edit and Delete Appointments
+!["Book Appointment"](screenshots/appointments.gif)
+Error Notification when deleting or Saving Appointments
+!["Book Appointment"](screenshots/errors.gif)

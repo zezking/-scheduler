@@ -1,7 +1,5 @@
+//Get the appointments for a specific day
 export function getAppointmentsForDay(state, day) {
-  //   const appointmentList = { ...state.appointments };
-
-  //this is the refactored code
   let appointmentForDay = [];
 
   if (!state.days) {
@@ -20,6 +18,7 @@ export function getAppointmentsForDay(state, day) {
 
   return appointmentForDay;
 }
+//Get the inerviewer and student for a specific appointment
 export function getInterview(state, interview) {
   const interviewersList = { ...state.interviewers };
   let studentAndInterviewer = {};
@@ -33,7 +32,7 @@ export function getInterview(state, interview) {
   }
   return studentAndInterviewer;
 }
-
+//get all the interviewers for the day
 export function getInterviewersForDay(state, day) {
   let interviewersForDay = [];
   const filteredDay = state.days.filter((index) => index.name === day);

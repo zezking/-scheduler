@@ -2,12 +2,14 @@ import { useEffect, useReducer } from "react";
 import axios from "axios";
 import updateSpots from "../helpers/updateSpots";
 
+//The end points for APIs
 const URLs = {
   GET_DAYS: "/api/days",
   GET_APPOINTMENTS: "/api/appointments",
   GET_INTERVIEWERS: "/api/interviewers",
 };
 
+//initialize state
 const initialState = {
   day: "Monday",
   days: [],
@@ -15,10 +17,12 @@ const initialState = {
   interviewers: [],
 };
 
+//initialize cases
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 
+//use useReducer for state managerment
 function reducer(state, action) {
   switch (action.type) {
     case SET_DAY:
@@ -57,6 +61,7 @@ function reducer(state, action) {
       );
   }
 }
+
 export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, initialState);
 

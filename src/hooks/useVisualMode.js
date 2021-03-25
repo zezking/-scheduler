@@ -1,13 +1,7 @@
 import { useState } from "react";
 
+//custom hooks for transitions
 export default function useVisualMode(initial) {
-  //My attempt-------------------
-  //   const [mode, setMode] = useState("FIRST");
-  //   return {
-  //     mode,
-  //   };
-  //The actual answer
-
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 

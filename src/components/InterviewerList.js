@@ -22,7 +22,7 @@ function InterviewerList(props) {
     </section>
   );
 }
-//it's .propTypes when delcaring the component
+//check interviewers list type is array
 InterviewerList.propTypes = {
   interviewers: PropTypes.array.isRequired,
 };

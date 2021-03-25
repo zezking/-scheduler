@@ -11,10 +11,6 @@ import {
   getInterviewersForDay,
 } from "../helpers/selectors";
 
-//APIs
-
-//Export the applications
-
 export default function Application(props) {
   const {
     state,
@@ -23,10 +19,13 @@ export default function Application(props) {
     cancelInterview,
   } = useApplicationData();
 
+  //get the appointments for a specific day
   const appointments = getAppointmentsForDay(state, state.day);
 
+  //get the available interviewers for a specific day
   const interviewers = getInterviewersForDay(state, state.day);
 
+  //Render appointment componenent for each appointment
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 

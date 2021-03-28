@@ -5,6 +5,7 @@
 Install dependencies with `npm install`.
 
 [Click to see it live!](https://scheduler-ez.netlify.app/)
+Please wait for a few seconds for the app to complete connecting to APIs
 
 ## Running Webpack Development Server
 
